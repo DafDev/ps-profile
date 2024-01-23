@@ -58,19 +58,19 @@ Function Tail-Thread {
     $warningKeyword = "WARNING";
     $errorKeyword = "ERROR";
 
-    Get-Content -Path $file.FullName -Tail $linecount  | 
-    ForEach-Object { 
-        Write-Output "`n$($fileNameColor)$($file.Name)`n------------------$($PSStyle.Reset)"; 
+    Get-Content -Path $file.FullName -Tail $linecount -Wait | 
+    ForEach-Object {  
         switch -Regex ($_)
         {
-            $infoKeyword {Write-Output "$($grey)${_}$($PSStyle.Reset)"}
-            $debugKeyword {Write-Output "$($blue)${_}$($PSStyle.Reset)"}
-            $warningKeyword {Write-Output "$($yellow)${_}$($PSStyle.Reset)"}
-            $errorKeyword {Write-Output "$($red)${_}$($PSStyle.Reset)"}
-            default {Write-Output "${_}"}
+            $infoKeyword {Write-Output "`n$($fileNameColor)$($file.Name)`n------------------`n$($PSStyle.Reset)$($grey)${_}$($PSStyle.Reset)"}
+            $debugKeyword {Write-Output "`n$($fileNameColor)$($file.Name)`n------------------`n$($PSStyle.Reset)$($blue)${_}$($PSStyle.Reset)"}
+            $warningKeyword {Write-Output "`n$($fileNameColor)$($file.Name)`n------------------`n$($PSStyle.Reset)$($yellow)${_}$($PSStyle.Reset)"}
+            $errorKeyword {Write-Output "`n$($fileNameColor)$($file.Name)`n------------------`n$($PSStyle.Reset)$($red)${_}$($PSStyle.Reset)"}
+            default {Write-Output "`n$($fileNameColor)$($file.Name)`n------------------`n$($PSStyle.Reset)${_}"}
         }
     } 
 }
+
 
 # Get the function's definition *as a string*
 $funcDef = ${function:Tail-Thread}.ToString()
